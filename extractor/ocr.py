@@ -2,6 +2,7 @@ import pytesseract
 from PIL import Image
 import os
 
+
 def extract_and_append_text(image_path, label):
     if not os.path.isfile(image_path):
         print(f"[OCR] File not found: {image_path}")
@@ -63,3 +64,16 @@ def extract_and_append_text(image_path, label):
 
     except Exception as e:
         print(f"[OCR] Error extracting text: {e}")
+
+
+# Move the cropped file to "cropped files" folder
+    try:
+    cropped_dir = os.path.join(folder, "cropped files")
+    os.makedirs(cropped_dir, exist_ok=True)
+
+    new_cropped_path = os.path.join(cropped_dir, os.path.basename(image_path))
+    os.replace(image_path, new_cropped_path)
+
+    print(f"[MOVE] Cropped image moved to: {new_cropped_path}")
+    except Exception as move_error:
+    print(f"[MOVE ERROR] Failed to move cropped image: {move_error}")
